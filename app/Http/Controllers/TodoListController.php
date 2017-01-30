@@ -36,11 +36,10 @@ class TodoListController extends Controller
         );
 
 
-
         $name = Input::get('title');
         $list = new TodoList();
         $list->name = $name;
         $list->save();
-        return Redirect::route('todos.index');
+        return Redirect::route('todos.index')->withMessage('List was created.status');
     }
 }
