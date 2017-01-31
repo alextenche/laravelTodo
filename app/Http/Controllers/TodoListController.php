@@ -26,11 +26,6 @@ class TodoListController extends Controller
     }
 
     public function store(Request $request){
-//        $rules = array('title', array('required', 'unique:todo_lists,name'));
-//        $validator = Validator::make(Input::all(), $rules);
-//        if ($validator->fails()) {
-//            return Redirect::route('todos.create');
-//        }
         $this->validate($request,
             ['title' => 'required|unique:todo_lists,name']
         );
@@ -40,6 +35,23 @@ class TodoListController extends Controller
         $list = new TodoList();
         $list->name = $name;
         $list->save();
-        return Redirect::route('todos.index')->withMessage('List was created.status');
+        return Redirect::route('todos.index')->withMessage('List was created.');
+    }
+
+    public function edit($id) {
+        $list = TodoList::findOrFail($id);
+        return view('todos.edit')->withList($list);
+    }
+
+    public function update(Request $request, $id) {
+        $this->validate($request,
+            ['name' => 'required|unique:todo_lists,name']
+        );
+
+        $name = Input::get('name');
+        $list = TodoList::findOrFail($id);
+        $list->name = $name;
+        $list->update();
+        return Redirect::route('todos.index')->withMessage('List was updated.');
     }
 }
