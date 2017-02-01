@@ -18,7 +18,10 @@ class TodoListController extends Controller
 
     public function show($id){
         $list = TodoList::findOrFail($id);
-        return view('todos.show')->withList($list);
+        $items = $list->listItems()->get();
+        return view('todos.show')
+            ->withList($list)
+            ->withItems($items);
     }
 
     public function create(){
@@ -53,5 +56,10 @@ class TodoListController extends Controller
         $list->name = $name;
         $list->update();
         return Redirect::route('todos.index')->withMessage('List was updated.');
+    }
+
+    public function destroy($id){
+        $todo_list = TodoList::findOrFail($id)->delete();
+        return Redirect::route('todos.index')->withMessage('Item deleted.');
     }
 }

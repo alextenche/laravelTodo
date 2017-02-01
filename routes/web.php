@@ -12,13 +12,14 @@
 */
 
 Route::get('/', 'TodoListController@index');
-//Route::get('/todos', 'TodoListController@index');
-//Route::get('/todos/{id}', 'TodoListController@show');
 
 Route::resource('todos', 'TodoListController');
 
 Route::get('/dbs', function(){
     $result = DB::table('todo_list')->where('name', 'test')->first();
     return $result->name;
-//    return DB::table('todo_list')->get();
+});
+
+Event::listen('illuminate.query', function($query){
+    var_dump($query);
 });

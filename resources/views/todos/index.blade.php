@@ -7,6 +7,11 @@
             <li>
                 {{ link_to_route('todos.edit', 'edit', [$list->id], ['class' => 'tiny button']) }}
             </li>
+            <li>
+                {{ Form::model($list, ['route' => ['todos.destroy', $list->id], 'method' => 'DELETE'] ) }}
+                    {{ Form::button('destroy', ['type' => 'submit', 'class' => 'tiny alert button']) }}
+                {{ Form::close() }}
+            </li>
         </ul>
     @endforeach
 
